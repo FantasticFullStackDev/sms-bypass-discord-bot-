@@ -71,12 +71,14 @@ client.on("message", function(message) {
     const user = "@" + message.author.username + '#' + message.author.discriminator;
     const all = { commandBody, args, command, message, user };
 
+    console.log(user, command);
     /**
      * Vérification des permissions de l'utilisateur lors de la commande
      */
+    
     db.get('SELECT permissions FROM users WHERE userid = ?', [message.author.id], (err, row) => {
       if (err) console.log(err.message);
-
+      console.log(row);
       /**
        * Système stockant les commandes authorisées selon le grade
        */
@@ -93,6 +95,7 @@ client.on("message", function(message) {
       /**
        * Si l'utilisateur n'est pas déjà dans la db, alors il n'a pas de permissions et les set à null
        */
+
       if(row != undefined)  perms = row.permissions;
       else perms = null;
 
